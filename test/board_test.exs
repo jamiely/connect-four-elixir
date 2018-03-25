@@ -10,10 +10,10 @@ defmodule BoardTest do
 
   test "is empty" do
     board = Board.defaultBoard
-    assert Board.isEmpty(board)
+    assert Board.is_empty(board)
   end
 
-  test "should have 6 * 7 indices" do
+  test "should have 6 * 7 indicies" do
     board = Board.defaultBoard
     assert map_size(board[:indicies]) == 42
   end
@@ -23,5 +23,33 @@ defmodule BoardTest do
     board = Board.set(board, {1,1}, :x)
     assert Board.get(board, {1,1}) == :x
   end
+  
+  test "it should know when there are no empty spaces" do
+    defaultBoard = Board.defaultBoard
+    board = Enum.reduce(defaultBoard.indicies(), defaultBoard,
+      fn(index, board) -> Board.set(board, index, :x) end)
+    assert Board.is_full(board)
+  end
 
+  test "marker str" do
+    assert Board.marker_str(:x) == "X"
+  end
+
+  test "it should render a board 1" do
+    indicies = for col <- 0..4, do: {col, 0}
+    board = Enum.reduce(
+      indicies,
+      Board.defaultBoard,
+      fn(index, board) -> Board.set(board, index, :x) end)
+    assert Board.render(board) == ".......\n.......\n.......\n.......\n.......\nXXXXX.."
+  end
+
+  test "it should render a board 2" do
+    indicies = for row <- 0..4, do: {0, row}
+    board = Enum.reduce(
+      indicies,
+      Board.defaultBoard,
+      fn(index, board) -> Board.set(board, index, :o) end)
+    assert Board.render(board) == ".......\nO......\nO......\nO......\nO......\nO......"
+  end
 end
