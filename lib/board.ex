@@ -3,6 +3,9 @@ defmodule Board do
   Documentation for ConnectFour.
   """
 
+  @doc """
+  Returns an empty board with the default columns and rows.
+  """
   def default do
     rows = 6
     cols = 7
@@ -10,35 +13,81 @@ defmodule Board do
     %{rows: rows, cols: cols, indicies: Map.new(indicies)}
   end
 
+  @doc """
+  Returns true if the passed board is empty.
+
+  ## Examples
+
+    iex> Board.is_empty?(Board.default)
+    true
+  """
   def is_empty?(board) do
     Enum.all?(Map.values(board[:indicies]), &{&1 == :empty})
   end
 
+  @doc """
+  Returns true if the board is empty at the passed index.
+
+  ## Examples
+
+     iex> Board.is_empty_at?(Board.default, {0, 0})
+     true
+  """
   def is_empty_at?(board, index) do
     get(board, index) == :empty
   end
 
+  @doc """
+  Sets the marker at the board index
+
+  ## Examples
+
+    iex> Board.default |> Board.set({0, 0}, :m) |> Board.is_empty_at?({0, 0})
+    false
+  """
   def set(board, index, marker) do
     put_in(board, [:indicies, index], marker)
   end
 
+  @doc """
+  Gets the marker at the board index
+
+  ## Examples
+
+  iex> Board.default |> Board.set({0, 0}, :m) |> Board.get({0, 0}) == :m
+  true
+  """
   def get(board, index) do
     board[:indicies][index]
   end
 
+  @doc """
+  Retrieves all of the indicies, like {0, 0}, of the board as a list.
+  """
   def indicies(board) do
     Map.keys(board[:indicies])
   end
 
+  @doc """
+  Returns true if there are no empty spots on the board.
+  iex> Board.is_full(Board.default |> Board.indicies |> Enum.reduce(Board.default, fn(ix, b) -> b |> Board.set(ix, :m) end))
+  true
+  """
   def is_full(board) do
     Enum.all?(Map.values(board[:indicies]), &{&1 != :empty})
   end
 
+  @doc """
+  Converts the passed symbol into a string for display.
+  """
   def marker_str(:x), do: "X"
   def marker_str(:o), do: "O"
   def marker_str(:empty), do: "."
   def marker_str(_), do: "?"
 
+  @doc """
+  Renders the board as a string.
+  """
   def render(board) do
     %{cols: cols, rows: rows} = board
     render_row = fn(row) ->

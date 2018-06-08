@@ -8,11 +8,6 @@ defmodule BoardTest do
     assert board[:cols] == 7
   end
 
-  test "is empty" do
-    board = Board.default
-    assert Board.is_empty?(board)
-  end
-
   test "should have 6 * 7 indicies" do
     board = Board.default
     assert map_size(board[:indicies]) == 42
