@@ -3,6 +3,7 @@
 [![Build Status](https://travis-ci.org/jamiely/connect-four-elixir.svg?branch=master)](https://travis-ci.org/jamiely/connect-four-elixir)
 
 Connect four game written in elixir.
+[Documentation](http://jamiely.github.io/connect-four-elixir/api-reference.html)
 
 
 # Building
