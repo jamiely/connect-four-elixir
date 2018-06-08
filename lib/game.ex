@@ -3,6 +3,12 @@ defmodule Game do
   Documentation for ConnectFour.
   """
 
+  @doc """
+  Returns true if there are any moves left to play.
+  """
+  def moves_left?(%{board: board}) do
+    ! Board.is_full?(board)
+  end
 
   @doc """
   Use to get the adjusted index in the direction relative to the passed index
@@ -52,6 +58,18 @@ defmodule Game do
   def first_empty_row(board, column) do
     %{rows: rows} = board
     Enum.find(0..rows-1, fn (row) -> Board.is_empty_at?(board, {column, row}) end)
+  end
+
+  @doc """
+  Returns true if the column has an empty row.
+
+  ```
+  iex> Game.default |> Game.column_available?(0)
+  true
+  ```
+  """
+  def column_available?(%{board: board}, column) do
+    !! first_empty_row(board, column)
   end
 
   @doc """
@@ -130,10 +148,14 @@ defmodule Game do
   def make_move(game, column) do
     %{board: board, current_marker: current} = game
     row = first_empty_row(board, column)
-    new_board = Board.set(board, {column, row}, current)
-    marker = next_marker(game)
+    if row do
+      new_board = Board.set(board, {column, row}, current)
+      marker = next_marker(game)
 
-    %{game | board: new_board, current_marker: marker}
+      %{game | board: new_board, current_marker: marker}
+    else
+      game
+    end
   end
 
   @doc """

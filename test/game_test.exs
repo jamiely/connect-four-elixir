@@ -55,6 +55,22 @@ defmodule GameTest do
       """
   end
 
+  test "returns the same game when you try to make an invalid move" do
+    g0 = Game.default
+    g1 = g0 |> Game.make_move(0)
+    g2 = g1 |> Game.make_move(0)
+    g3 = g2 |> Game.make_move(0)
+    g4 = g3 |> Game.make_move(0)
+    g5 = g4 |> Game.make_move(0)
+    g6 = g5 |> Game.make_move(0)
+    g7 = g6 |> Game.make_move(0)
+    g8 = g7 |> Game.make_move(0)
+
+    assert g6 != g5
+    assert g7 == g6
+    assert g8 == g7
+  end
+
   test "win at index" do
     game = Game.default |>
       Game.make_move(0) |>

@@ -9,6 +9,7 @@ Connect four game written in elixir.
 # Building
 
 ```bash
+mix deps.get
 mix escript.build
 ```
 

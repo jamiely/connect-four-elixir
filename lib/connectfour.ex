@@ -17,12 +17,24 @@ defmodule ConnectFour do
 
   def loop(game) do
     winner = Game.is_win?(game)
-    if winner do
-      IO.puts "#{winner} has won"
-    else
-      IO.puts Game.render(game)
-      column = IO.gets("Your move? [0-6]")
-      loop(Game.make_move(game, column |> String.trim |> String.to_integer))
+    IO.puts Game.render(game)
+    cond do
+      Game.is_win?(game) -> IO.puts "#{winner} has won"
+      ! Game.moves_left?(game) -> IO.puts "There are no moves left"
+      true ->
+        case IO.gets("#{game[:current_marker]}'s move? [0-6]")
+          |> String.trim |> Integer.parse do
+          :error ->
+            IO.puts "Invalid column. Please try again"
+            loop(game)
+          {column, _} ->
+            if game |> Game.column_available?(column) do
+              loop(Game.make_move(game, column))
+            else
+              IO.puts "That column is full or an invalid column. Try another one."
+              loop(game)
+            end
+        end
     end
   end
 end

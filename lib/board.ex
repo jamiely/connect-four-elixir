@@ -101,7 +101,7 @@ defmodule Board do
   ```
   """
   def is_full?(board) do
-    Enum.all?(Map.values(board[:indicies]), &{&1 != :empty})
+    Enum.all?(Map.values(board[:indicies]), &(&1 != :empty))
   end
 
   @doc """

@@ -21,8 +21,11 @@ defmodule BoardTest do
   
   test "it should know when there are no empty spaces" do
     default = Board.default
-    board = Enum.reduce(default.indicies(), default,
-      fn(index, board) -> Board.set(board, index, :x) end)
+    assert !Board.is_full?(default)
+
+    board = default |> Map.get(:indicies) |> Map.keys
+            |> Enum.reduce(default, &(Board.set(&2, &1, :x)))
+
     assert Board.is_full?(board)
   end
 
