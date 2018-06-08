@@ -1,21 +1,29 @@
 # ConnectFour
 
-**TODO: Add description**
+Connect four game written in elixir.
 
-## Installation
+# Building
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `connectfour` to your list of dependencies in `mix.exs`:
-
-```elixir
-def deps do
-  [
-    {:connectfour, "~> 0.1.0"}
-  ]
-end
+```bash
+mix escript.build
 ```
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/connectfour](https://hexdocs.pm/connectfour).
+Will produce a file `connectfour`. Which you can then run like:
 
+```bash
+./connectfour
+```
+
+# Testing
+
+```bash
+mix test
+```
+
+# Docs
+
+Assuming you have [ex_doc](https://github.com/elixir-lang/ex_doc) installed:
+
+```bash
+ex_doc connectfour 0.1.0 _build/dev/lib/connectfour/ebin
+```

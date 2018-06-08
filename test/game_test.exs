@@ -26,4 +26,58 @@ defmodule GameTest do
     assert Game.index_in_direction({1,1}, {0, 0}) == {1,1}
     assert Game.index_in_direction({1,1}, {1, 0}) == {2,1}
   end
+
+  test "gets first empty row" do
+    b1 = Board.default
+    assert Game.first_empty_row(b1, 0) == 0
+
+    b2 = Board.set(b1, {0, 0}, :x)
+    assert Game.first_empty_row(b2, 0) == 1
+
+    b3 = Board.set(b2, {0, 1}, :x)
+    assert Game.first_empty_row(b3, 0) == 2
+  end
+
+  test "can make move" do
+    game = Game.default |>
+      Game.make_move(0) |>
+      Game.make_move(0) |>
+      Game.make_move(1)
+
+    %{board: board} = game    
+    assert Board.render(board) <> "\n" == """
+      .......
+      .......
+      .......
+      .......
+      O......
+      XX.....
+      """
+  end
+
+  test "win at index" do
+    game = Game.default |>
+      Game.make_move(0) |>
+      Game.make_move(1) |>
+      Game.make_move(0) |>
+      Game.make_move(1) |>
+      Game.make_move(0) |>
+      Game.make_move(1)
+    assert ! Game.win_at_index?(game, {0, 0})
+    won_game = game |> Game.make_move(0)
+    assert Game.win_at_index?(won_game, {0, 0})
+  end
+
+  test "is win" do
+    game = Game.default |>
+      Game.make_move(0) |>
+      Game.make_move(1) |>
+      Game.make_move(0) |>
+      Game.make_move(1) |>
+      Game.make_move(0) |>
+      Game.make_move(1)
+    assert ! Game.is_win?(game)
+    won_game = game |> Game.make_move(0)
+    assert Game.is_win?(won_game)
+  end
 end

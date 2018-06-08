@@ -3,19 +3,6 @@ defmodule Board do
   Documentation for ConnectFour.
   """
 
-  @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> ConnectFour.hello
-      :world
-
-  """
-  def hello do
-    :world
-  end
-
   def default do
     rows = 6
     cols = 7
@@ -23,11 +10,11 @@ defmodule Board do
     %{rows: rows, cols: cols, indicies: Map.new(indicies)}
   end
 
-  def is_empty(board) do
+  def is_empty?(board) do
     Enum.all?(Map.values(board[:indicies]), &{&1 == :empty})
   end
 
-  def is_empty_at(board, index) do
+  def is_empty_at?(board, index) do
     get(board, index) == :empty
   end
 
@@ -66,13 +53,13 @@ defmodule Board do
     board[:indicies][index]
   end
 
-  def directions() do
+  def directions do
     r = -1..1
-    directions = for x <- r, y <-r, do: {x, y}
+    dirs = for x <- r, y <-r, do: {x, y}
     not_zero = fn
       {0, 0} -> false
       _      -> true
     end
-    Enum.filter(directions, not_zero)
+    Enum.filter(dirs, not_zero)
   end
 end

@@ -6,6 +6,7 @@ defmodule ConnectFour.MixProject do
       app: :connectfour,
       version: "0.1.0",
       elixir: "~> 1.6",
+      escript: [main_module: ConnectFour],
       start_permanent: Mix.env() == :prod,
       deps: deps()
     ]

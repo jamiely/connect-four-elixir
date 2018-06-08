@@ -10,7 +10,7 @@ defmodule BoardTest do
 
   test "is empty" do
     board = Board.default
-    assert Board.is_empty(board)
+    assert Board.is_empty?(board)
   end
 
   test "should have 6 * 7 indicies" do
@@ -59,9 +59,9 @@ defmodule BoardTest do
 
   test "it should test emptiness of particular index" do
     default = Board.default
-    assert Board.is_empty_at(default, {1,1})
+    assert Board.is_empty_at?(default, {1,1})
 
     board = Board.set(default, {1,1}, :x)
-    assert ! Board.is_empty_at(board, {1,1})
+    assert ! Board.is_empty_at?(board, {1,1})
   end
 end
