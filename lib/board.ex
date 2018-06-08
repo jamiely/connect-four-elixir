@@ -5,6 +5,19 @@ defmodule Board do
 
   @doc """
   Returns an empty board with the default columns and rows.
+
+  ## Examples
+
+  ```
+  iex> Board.default[:rows]
+  6
+  iex> Board.default[:cols]
+  7
+  iex> Board.default[:indicies][{0, 0}]
+  :empty
+  iex> Board.default |> Board.is_empty?
+  true
+  ```
   """
   def default do
     rows = 6
@@ -18,8 +31,10 @@ defmodule Board do
 
   ## Examples
 
-    iex> Board.is_empty?(Board.default)
-    true
+  ```
+  iex> Board.default |> Board.is_empty?
+  true
+  ```
   """
   def is_empty?(board) do
     Enum.all?(Map.values(board[:indicies]), &{&1 == :empty})
@@ -30,8 +45,10 @@ defmodule Board do
 
   ## Examples
 
-     iex> Board.is_empty_at?(Board.default, {0, 0})
-     true
+  ```
+  iex> Board.is_empty_at?(Board.default, {0, 0})
+  true
+  ```
   """
   def is_empty_at?(board, index) do
     get(board, index) == :empty
@@ -42,8 +59,10 @@ defmodule Board do
 
   ## Examples
 
-    iex> Board.default |> Board.set({0, 0}, :m) |> Board.is_empty_at?({0, 0})
-    false
+  ```
+  iex> Board.default |> Board.set({0, 0}, :m) |> Board.is_empty_at?({0, 0})
+  false
+  ```
   """
   def set(board, index, marker) do
     put_in(board, [:indicies, index], marker)
@@ -54,15 +73,17 @@ defmodule Board do
 
   ## Examples
 
+  ```
   iex> Board.default |> Board.set({0, 0}, :m) |> Board.get({0, 0}) == :m
   true
+  ```
   """
   def get(board, index) do
     board[:indicies][index]
   end
 
   @doc """
-  Retrieves all of the indicies, like {0, 0}, of the board as a list.
+  Retrieves all of the indicies, like `{0, 0}`, of the board as a list.
   """
   def indicies(board) do
     Map.keys(board[:indicies])
@@ -70,10 +91,16 @@ defmodule Board do
 
   @doc """
   Returns true if there are no empty spots on the board.
-  iex> Board.is_full(Board.default |> Board.indicies |> Enum.reduce(Board.default, fn(ix, b) -> b |> Board.set(ix, :m) end))
+
+  ```
+  iex> Board.default |> Board.indicies
+  ...> |> Enum.reduce(Board.default,
+  ...>                fn(ix, b) -> b |> Board.set(ix, :m) end)
+  ...> |> Board.is_full?
   true
+  ```
   """
-  def is_full(board) do
+  def is_full?(board) do
     Enum.all?(Map.values(board[:indicies]), &{&1 != :empty})
   end
 
@@ -87,6 +114,13 @@ defmodule Board do
 
   @doc """
   Renders the board as a string.
+
+  ## Examples
+
+  ```
+  iex> Board.default |> Board.set({0, 0}, :x) |> Board.render
+  ".......\n.......\n.......\n.......\n.......\nX......"
+  ```
   """
   def render(board) do
     %{cols: cols, rows: rows} = board
@@ -98,10 +132,17 @@ defmodule Board do
     Enum.join(row_strs, "\n")
   end
 
-  def marker_at(board, index) do
-    board[:indicies][index]
-  end
+  @doc """
+  Returns a list containing indicies representing compass directions.
+  Used to explore a board from a starting position.
 
+  ## Examples
+
+  ```
+  iex> Board.directions
+  [ {-1, -1}, {-1, 0}, {-1, 1}, {0, -1}, {0, 1}, {1, -1}, {1, 0}, {1, 1} ]
+  ```
+  """
   def directions do
     r = -1..1
     dirs = for x <- r, y <-r, do: {x, y}

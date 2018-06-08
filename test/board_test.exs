@@ -23,7 +23,7 @@ defmodule BoardTest do
     default = Board.default
     board = Enum.reduce(default.indicies(), default,
       fn(index, board) -> Board.set(board, index, :x) end)
-    assert Board.is_full(board)
+    assert Board.is_full?(board)
   end
 
   test "marker str" do
